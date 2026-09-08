@@ -9,7 +9,7 @@ const title = "People — Profiles of the Builders | FORGE";
 const description =
   "Profiles, interviews and features on the engineers, founders and researchers building the technology behind modern products.";
 
-export const Route = createFileRoute("/people")({
+export const Route = createFileRoute("/people/")({
   head: () => ({
     meta: [
       { title },

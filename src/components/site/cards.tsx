@@ -189,13 +189,20 @@ export function VideoCard({ story, size = "md" }: { story: Story; size?: "sm" | 
 export function ProfileCard({ person }: { person: Person }) {
   return (
     <article className="hover-zoom group">
-      <div className="media-frame relative aspect-[4/5]">
-        <img src={person.image} alt={person.name} loading="lazy" className="h-full w-full object-cover" />
-      </div>
-      <h3 className="mt-4 text-2xl leading-tight">{person.name}</h3>
-      <p className="eyebrow mt-1.5 text-accent">{person.role}</p>
-      <p className="meta-text mt-1">{person.company}</p>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{person.blurb}</p>
+      <Link to="/people/$slug" params={{ slug: person.slug }} className="block">
+        <div className="media-frame relative aspect-[4/5]">
+          <img src={person.image} alt={person.name} loading="lazy" className="h-full w-full object-cover" />
+        </div>
+        <h3 className="mt-4 text-2xl leading-tight transition-colors group-hover:text-accent">
+          {person.name}
+        </h3>
+        <p className="eyebrow mt-1.5 text-accent">{person.role}</p>
+        <p className="meta-text mt-1">{person.company}</p>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{person.blurb}</p>
+        <span className="eyebrow mt-4 inline-flex items-center gap-1 border-b border-foreground pb-0.5 transition-colors group-hover:border-accent group-hover:text-accent">
+          Read Profile <ArrowUpRight className="h-3 w-3" />
+        </span>
+      </Link>
     </article>
   );
 }

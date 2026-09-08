@@ -47,6 +47,11 @@ export type Person = {
   company: string;
   blurb: string;
   image: string;
+  location?: string;
+  bio?: string[];
+  focus?: string[];
+  qa?: { q: string; a: string }[];
+  storySlugs?: string[];
 };
 
 export const stories: Story[] = [
@@ -237,6 +242,32 @@ export const people: Person[] = [
     blurb:
       "Rebuilt a serving stack from scratch so a research prototype could answer a million requests a day.",
     image: portrait1,
+    location: "Lisbon, Portugal",
+    bio: [
+      "Amara Diallo spent four years on distributed systems before inference became the hardest scaling problem in the building. When Northbound Labs' research team shipped a model that worked beautifully for ten users and collapsed at ten thousand, she was handed a quarter and a small team to fix it.",
+      "The rewrite that followed is now the company's most reused internal library. It is also, she is quick to say, mostly a story about deleting things: three caching layers, two queues, and an abstraction nobody could explain in a meeting.",
+      "She writes a short internal memo after every incident and publishes it unedited. The habit has outlasted two reorgs.",
+    ],
+    focus: ["Inference serving", "Latency budgets", "Incident review"],
+    qa: [
+      {
+        q: "What do most teams get wrong about serving models?",
+        a: "They optimise the average and get destroyed by the tail. Your slowest one percent is the experience people describe to their friends.",
+      },
+      {
+        q: "How do you know a rewrite is worth it?",
+        a: "When the cost of explaining the current system to a new engineer is higher than the cost of replacing it.",
+      },
+      {
+        q: "One habit you would give away?",
+        a: "Write the incident memo the same day. By Friday it becomes a story about what you meant to do.",
+      },
+    ],
+    storySlugs: [
+      "the-founder-who-rebuilt-her-company-around-inference",
+      "engineers-building-next-generation-ai",
+      "from-prototype-to-production",
+    ],
   },
   {
     slug: "kenji-mori",
@@ -246,6 +277,32 @@ export const people: Person[] = [
     blurb:
       "Left a decade of platform work to build tooling for the people who document how software gets made.",
     image: portrait2,
+    location: "Kyoto, Japan",
+    bio: [
+      "Kenji Mori spent ten years building internal platforms nobody outside the company would ever see. Fieldnote started as a weekend argument with a colleague about why the most valuable knowledge in engineering organisations lives in private messages and leaves when people do.",
+      "The product is deliberately small: a way to capture the reasoning behind a decision at the moment it is made, and find it again two years later. Kenji describes the roadmap as \u201cresisting the urge to become a wiki.\u201d",
+      "He still reviews every support ticket personally, which he admits does not scale and refuses to stop doing.",
+    ],
+    focus: ["Developer tools", "Documentation", "Small teams"],
+    qa: [
+      {
+        q: "Why documentation, of all things?",
+        a: "Because every team I joined had the same first week: reading code to reverse-engineer a decision somebody already made carefully.",
+      },
+      {
+        q: "What have you refused to build?",
+        a: "Anything that turns writing into a compliance exercise. The moment it feels like a form, people write nothing true.",
+      },
+      {
+        q: "How do you decide what ships?",
+        a: "If it does not remove a step from somebody's Tuesday, it waits.",
+      },
+    ],
+    storySlugs: [
+      "the-quiet-craft-of-developer-tools",
+      "inside-the-engineering-workflow",
+      "the-process-behind-the-product",
+    ],
   },
   {
     slug: "asha-venkat",
@@ -255,8 +312,39 @@ export const people: Person[] = [
     blurb:
       "Turns dense evaluation research into product decisions teams can actually ship against.",
     image: portrait3,
+    location: "Bengaluru, India",
+    bio: [
+      "Asha Venkat runs research at Perigee AI, where her team's main output is not papers but decisions: which model behaviours matter, how to measure them, and when a number is good enough to ship against.",
+      "She built Perigee's evaluation practice after watching three launches judged on benchmarks that had almost nothing to do with what customers were doing. The replacement is unglamorous \u2014 a few hundred real tasks, graded by people who understand the domain.",
+      "Her team publishes its evaluation set internally so anyone can argue with it. The arguments, she says, are the point.",
+    ],
+    focus: ["Evaluation", "Applied research", "Product decisions"],
+    qa: [
+      {
+        q: "What makes an evaluation useful?",
+        a: "That someone could lose an argument to it. If no result would change what we ship, it is decoration.",
+      },
+      {
+        q: "Papers or products?",
+        a: "Papers tell you what is possible. Products tell you what is reliable. We need the second one to keep our promises.",
+      },
+      {
+        q: "Biggest misconception about research teams?",
+        a: "That we are upstream. We are in the room the whole time, or the work does not land.",
+      },
+    ],
+    storySlugs: [
+      "what-evaluation-really-means",
+      "the-researcher-translating-papers-into-products",
+      "meet-the-engineers-turning-ai-ideas-into-products",
+    ],
   },
 ];
+
+export const getPerson = (slug: string) => people.find((p) => p.slug === slug);
+
+export const storiesForSlugs = (slugs: string[] = []) =>
+  slugs.map((s) => stories.find((x) => x.slug === s)).filter((x): x is Story => Boolean(x));
 
 export const featuredArticleSlug = "engineers-building-next-generation-ai";
 
