@@ -219,19 +219,14 @@ export const byCategory = (category: Category) =>
 
 export const videos = stories.filter((s) => s.format === "video");
 
-export const heroStory = stories[0];
-export const heroSecondary = [stories[1], stories[2], stories[6]];
+const at = (i: number): Story => stories[i] as Story;
 
-export const trending = [
-  stories[3],
-  stories[2],
-  stories[4],
-  stories[1],
-  stories[10],
-  stories[5],
-];
+export const heroStory = at(0);
+export const heroSecondary: Story[] = [at(1), at(2), at(6)];
 
-export const featuredVideo = stories[9];
+export const trending: Story[] = [at(3), at(2), at(4), at(1), at(10), at(5)];
+
+export const featuredVideo = at(9);
 
 export const people: Person[] = [
   {
