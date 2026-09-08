@@ -17,6 +17,7 @@ import { Route as TechnologyRouteImport } from './routes/technology'
 import { Route as VideosRouteImport } from './routes/videos'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as PeopleIndexRouteImport } from './routes/people.index'
+import { Route as PeopleSlugRouteImport } from './routes/people.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,11 @@ const PeopleIndexRoute = PeopleIndexRouteImport.update({
   path: '/people/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PeopleSlugRoute = PeopleSlugRouteImport.update({
+  id: '/people/$slug',
+  path: '/people/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/technology': typeof TechnologyRoute
   '/videos': typeof VideosRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/people/$slug': typeof PeopleSlugRoute
   '/people/': typeof PeopleIndexRoute
 }
 export interface FileRoutesByTo {
@@ -77,6 +84,7 @@ export interface FileRoutesByTo {
   '/technology': typeof TechnologyRoute
   '/videos': typeof VideosRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/people/$slug': typeof PeopleSlugRoute
   '/people': typeof PeopleIndexRoute
 }
 export interface FileRoutesById {
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/technology': typeof TechnologyRoute
   '/videos': typeof VideosRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/people/$slug': typeof PeopleSlugRoute
   '/people/': typeof PeopleIndexRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
     | '/technology'
     | '/videos'
     | '/article/$slug'
+    | '/people/$slug'
     | '/people/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/technology'
     | '/videos'
     | '/article/$slug'
+    | '/people/$slug'
     | '/people'
   id:
     | '__root__'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/technology'
     | '/videos'
     | '/article/$slug'
+    | '/people/$slug'
     | '/people/'
   fileRoutesById: FileRoutesById
 }
@@ -131,6 +143,7 @@ export interface RootRouteChildren {
   TechnologyRoute: typeof TechnologyRoute
   VideosRoute: typeof VideosRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
+  PeopleSlugRoute: typeof PeopleSlugRoute
   PeopleIndexRoute: typeof PeopleIndexRoute
 }
 
@@ -192,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PeopleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/people/$slug': {
+      id: '/people/$slug'
+      path: '/people/$slug'
+      fullPath: '/people/$slug'
+      preLoaderRoute: typeof PeopleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -203,6 +223,7 @@ const rootRouteChildren: RootRouteChildren = {
   TechnologyRoute: TechnologyRoute,
   VideosRoute: VideosRoute,
   ArticleSlugRoute: ArticleSlugRoute,
+  PeopleSlugRoute: PeopleSlugRoute,
   PeopleIndexRoute: PeopleIndexRoute,
 }
 export const routeTree = rootRouteImport
