@@ -15,7 +15,7 @@ export function CategoryLabel({ story }: { story: Story }) {
   );
 }
 
-function PlayOverlay({ duration }: { duration?: string }) {
+function PlayOverlay({ duration }: { duration?: string | undefined }) {
   return (
     <>
       <span className="pointer-events-none absolute inset-0 bg-ink/10 transition-opacity group-hover:opacity-0" />

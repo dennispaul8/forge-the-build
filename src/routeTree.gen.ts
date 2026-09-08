@@ -13,8 +13,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as PeopleRouteImport } from './routes/people'
 import { Route as ProcessesRouteImport } from './routes/processes'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as TechnologyRouteImport } from './routes/technology'
 import { Route as VideosRouteImport } from './routes/videos'
+import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -36,6 +38,11 @@ const ProcessesRoute = ProcessesRouteImport.update({
   path: '/processes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TechnologyRoute = TechnologyRouteImport.update({
   id: '/technology',
   path: '/technology',
@@ -46,22 +53,31 @@ const VideosRoute = VideosRouteImport.update({
   path: '/videos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArticleSlugRoute = ArticleSlugRouteImport.update({
+  id: '/article/$slug',
+  path: '/article/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/people': typeof PeopleRoute
   '/processes': typeof ProcessesRoute
+  '/search': typeof SearchRoute
   '/technology': typeof TechnologyRoute
   '/videos': typeof VideosRoute
+  '/article/$slug': typeof ArticleSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/people': typeof PeopleRoute
   '/processes': typeof ProcessesRoute
+  '/search': typeof SearchRoute
   '/technology': typeof TechnologyRoute
   '/videos': typeof VideosRoute
+  '/article/$slug': typeof ArticleSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,23 +85,42 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/people': typeof PeopleRoute
   '/processes': typeof ProcessesRoute
+  '/search': typeof SearchRoute
   '/technology': typeof TechnologyRoute
   '/videos': typeof VideosRoute
+  '/article/$slug': typeof ArticleSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/people' | '/processes' | '/technology' | '/videos'
+    | '/'
+    | '/about'
+    | '/people'
+    | '/processes'
+    | '/search'
+    | '/technology'
+    | '/videos'
+    | '/article/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/people' | '/processes' | '/technology' | '/videos'
+  to:
+    | '/'
+    | '/about'
+    | '/people'
+    | '/processes'
+    | '/search'
+    | '/technology'
+    | '/videos'
+    | '/article/$slug'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/people'
     | '/processes'
+    | '/search'
     | '/technology'
     | '/videos'
+    | '/article/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,8 +128,10 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   PeopleRoute: typeof PeopleRoute
   ProcessesRoute: typeof ProcessesRoute
+  SearchRoute: typeof SearchRoute
   TechnologyRoute: typeof TechnologyRoute
   VideosRoute: typeof VideosRoute
+  ArticleSlugRoute: typeof ArticleSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -127,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProcessesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/technology': {
       id: '/technology'
       path: '/technology'
@@ -141,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/article/$slug': {
+      id: '/article/$slug'
+      path: '/article/$slug'
+      fullPath: '/article/$slug'
+      preLoaderRoute: typeof ArticleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -149,8 +200,10 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   PeopleRoute: PeopleRoute,
   ProcessesRoute: ProcessesRoute,
+  SearchRoute: SearchRoute,
   TechnologyRoute: TechnologyRoute,
   VideosRoute: VideosRoute,
+  ArticleSlugRoute: ArticleSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
