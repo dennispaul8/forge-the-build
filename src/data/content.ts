@@ -47,6 +47,11 @@ export type Person = {
   company: string;
   blurb: string;
   image: string;
+  location?: string;
+  bio?: string[];
+  focus?: string[];
+  qa?: { q: string; a: string }[];
+  storySlugs?: string[];
 };
 
 export const stories: Story[] = [
@@ -257,6 +262,11 @@ export const people: Person[] = [
     image: portrait3,
   },
 ];
+
+export const getPerson = (slug: string) => people.find((p) => p.slug === slug);
+
+export const storiesForSlugs = (slugs: string[] = []) =>
+  slugs.map((s) => stories.find((x) => x.slug === s)).filter((x): x is Story => Boolean(x));
 
 export const featuredArticleSlug = "engineers-building-next-generation-ai";
 

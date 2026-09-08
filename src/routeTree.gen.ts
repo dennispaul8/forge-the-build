@@ -11,12 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as PeopleRouteImport } from './routes/people'
 import { Route as ProcessesRouteImport } from './routes/processes'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as TechnologyRouteImport } from './routes/technology'
 import { Route as VideosRouteImport } from './routes/videos'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as PeopleIndexRouteImport } from './routes/people.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -26,11 +26,6 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PeopleRoute = PeopleRouteImport.update({
-  id: '/people',
-  path: '/people',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProcessesRoute = ProcessesRouteImport.update({
@@ -58,80 +53,85 @@ const ArticleSlugRoute = ArticleSlugRouteImport.update({
   path: '/article/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PeopleIndexRoute = PeopleIndexRouteImport.update({
+  id: '/people/',
+  path: '/people/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/people': typeof PeopleRoute
   '/processes': typeof ProcessesRoute
   '/search': typeof SearchRoute
   '/technology': typeof TechnologyRoute
   '/videos': typeof VideosRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/people/': typeof PeopleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/people': typeof PeopleRoute
   '/processes': typeof ProcessesRoute
   '/search': typeof SearchRoute
   '/technology': typeof TechnologyRoute
   '/videos': typeof VideosRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/people': typeof PeopleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/people': typeof PeopleRoute
   '/processes': typeof ProcessesRoute
   '/search': typeof SearchRoute
   '/technology': typeof TechnologyRoute
   '/videos': typeof VideosRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/people/': typeof PeopleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
-    | '/people'
     | '/processes'
     | '/search'
     | '/technology'
     | '/videos'
     | '/article/$slug'
+    | '/people/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/people'
     | '/processes'
     | '/search'
     | '/technology'
     | '/videos'
     | '/article/$slug'
+    | '/people'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/people'
     | '/processes'
     | '/search'
     | '/technology'
     | '/videos'
     | '/article/$slug'
+    | '/people/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  PeopleRoute: typeof PeopleRoute
   ProcessesRoute: typeof ProcessesRoute
   SearchRoute: typeof SearchRoute
   TechnologyRoute: typeof TechnologyRoute
   VideosRoute: typeof VideosRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
+  PeopleIndexRoute: typeof PeopleIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -148,13 +148,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/people': {
-      id: '/people'
-      path: '/people'
-      fullPath: '/people'
-      preLoaderRoute: typeof PeopleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/processes': {
@@ -192,18 +185,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticleSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/people/': {
+      id: '/people/'
+      path: '/people'
+      fullPath: '/people/'
+      preLoaderRoute: typeof PeopleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  PeopleRoute: PeopleRoute,
   ProcessesRoute: ProcessesRoute,
   SearchRoute: SearchRoute,
   TechnologyRoute: TechnologyRoute,
   VideosRoute: VideosRoute,
   ArticleSlugRoute: ArticleSlugRoute,
+  PeopleIndexRoute: PeopleIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
