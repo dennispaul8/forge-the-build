@@ -90,11 +90,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
+  {
+    rel: "stylesheet",
+    href: appCss,
+  },
+  {
+    rel: "icon",
+    type: "image/svg+xml",
+    href: "/favicon.svg",
+  },
+],
   }),
   shellComponent: RootShell,
   component: RootComponent,
