@@ -49,7 +49,7 @@ export function Navbar() {
           <span className="font-display text-2xl leading-none tracking-tight">FORGE</span>
         </Link>
 
-        <nav className="hidden items-center justify-center gap-7 lg:flex">
+        <nav className="hidden items-center justify-center gap-6 md:flex">
           <Link
             to="/"
             activeOptions={{ exact: true }}
@@ -108,13 +108,13 @@ export function Navbar() {
           >
             <Search className="h-4 w-4" />
           </Button>
-          <Button asChild className="eyebrow hidden rounded-none bg-accent px-4 text-accent-foreground shadow-none hover:bg-accent/90 sm:inline-flex">
-          <Link
-            to="/"
-            hash="today"
+          <Button
+            asChild
+            className="eyebrow hidden rounded-none bg-accent px-4 text-accent-foreground shadow-none hover:bg-accent/90 sm:inline-flex"
           >
-            Jump to Today
-          </Link>
+            <Link to="/" hash="today">
+              Jump to Today
+            </Link>
           </Button>
           <Button
             type="button"
@@ -122,7 +122,7 @@ export function Navbar() {
             size="icon"
             aria-label="Menu"
             onClick={() => setMenuOpen((v) => !v)}
-            className="rounded-none shadow-none lg:hidden"
+            className="rounded-none shadow-none md:hidden"
           >
             {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </Button>
@@ -151,7 +151,7 @@ export function Navbar() {
       )}
 
       {menuOpen && (
-        <nav className="border-t border-border bg-background lg:hidden">
+        <nav className="border-t border-border bg-background md:hidden">
           <ul className="mx-auto max-w-[1400px] px-5 py-2 md:px-8">
             {[links[0], ...seriesLinks, ...links.slice(1)].map((l) => (
               <li key={l.to} className="border-b border-border last:border-0">

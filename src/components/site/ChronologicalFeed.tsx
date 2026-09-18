@@ -100,7 +100,9 @@ export function ChronologicalFeed() {
   const [topic, setTopic] = useState<Topic>("All Stories");
   const filteredStories = useMemo(() => {
     if (topic === "All Stories") return feedStories;
-    if (topic === "Deep Dives") return feedStories.filter((story) => story.contentType === "Deep Dive");
+    if (topic === "Deep Dives") {
+      return feedStories.filter((story) => story.contentType === "Deep Dive");
+    }
     return feedStories.filter((story) => story.series === topic);
   }, [topic]);
 
