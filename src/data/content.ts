@@ -40,6 +40,15 @@ export type Story = {
   portrait?: boolean;
 };
 
+export type FeedContentType = "The Script" | "The Files" | "Daily Briefing" | "Deep Dive" | "Profile" | "Video";
+
+export type FeedStory = Story & {
+  publishedAt: string;
+  time: string;
+  contentType: FeedContentType;
+  series: "AI Governance Watch" | "Founder Stories" | "Product Drops" | "Big Tech Reactions";
+};
+
 export type Person = {
   slug: string;
   name: string;
@@ -218,6 +227,104 @@ export const stories: Story[] = [
     duration: "16:04",
   },
 ];
+
+const feedDetails: Record<
+  string,
+  Pick<FeedStory, "publishedAt" | "time" | "contentType" | "series">
+> = {
+  "engineers-building-next-generation-ai": {
+    publishedAt: "2026-09-18T08:00:00Z",
+    time: "8:00 AM",
+    contentType: "The Script",
+    series: "AI Governance Watch",
+  },
+  "how-ai-agents-actually-work": {
+    publishedAt: "2026-09-18T11:20:00Z",
+    time: "11:20 AM",
+    contentType: "Video",
+    series: "AI Governance Watch",
+  },
+  "inside-a-startup-engineering-team": {
+    publishedAt: "2026-09-18T14:05:00Z",
+    time: "2:05 PM",
+    contentType: "Daily Briefing",
+    series: "Founder Stories",
+  },
+  "the-ai-tools-changing-product-development": {
+    publishedAt: "2026-09-17T09:40:00Z",
+    time: "9:40 AM",
+    contentType: "The Files",
+    series: "Product Drops",
+  },
+  "how-we-built-the-product-from-scratch": {
+    publishedAt: "2026-09-17T16:15:00Z",
+    time: "4:15 PM",
+    contentType: "Deep Dive",
+    series: "Founder Stories",
+  },
+  "from-prototype-to-production": {
+    publishedAt: "2026-09-15T08:00:00Z",
+    time: "8:00 AM",
+    contentType: "Video",
+    series: "Product Drops",
+  },
+  "meet-the-engineers-turning-ai-ideas-into-products": {
+    publishedAt: "2026-09-15T12:30:00Z",
+    time: "12:30 PM",
+    contentType: "Profile",
+    series: "Founder Stories",
+  },
+  "the-founder-who-rebuilt-her-company-around-inference": {
+    publishedAt: "2026-09-14T10:10:00Z",
+    time: "10:10 AM",
+    contentType: "Profile",
+    series: "Founder Stories",
+  },
+  "inside-the-engineering-workflow": {
+    publishedAt: "2026-09-14T15:45:00Z",
+    time: "3:45 PM",
+    contentType: "The Files",
+    series: "Product Drops",
+  },
+  "inside-the-technology-powering-the-next-generation-of-startups": {
+    publishedAt: "2026-09-11T09:00:00Z",
+    time: "9:00 AM",
+    contentType: "Video",
+    series: "Big Tech Reactions",
+  },
+  "the-quiet-craft-of-developer-tools": {
+    publishedAt: "2026-09-11T13:25:00Z",
+    time: "1:25 PM",
+    contentType: "Deep Dive",
+    series: "Product Drops",
+  },
+  "the-process-behind-the-product": {
+    publishedAt: "2026-09-09T11:05:00Z",
+    time: "11:05 AM",
+    contentType: "Video",
+    series: "Founder Stories",
+  },
+  "the-researcher-translating-papers-into-products": {
+    publishedAt: "2026-09-09T16:10:00Z",
+    time: "4:10 PM",
+    contentType: "Profile",
+    series: "AI Governance Watch",
+  },
+  "what-evaluation-really-means": {
+    publishedAt: "2026-09-08T10:30:00Z",
+    time: "10:30 AM",
+    contentType: "The Script",
+    series: "AI Governance Watch",
+  },
+};
+
+export const feedStories: FeedStory[] = stories
+  .map((story) => {
+    const details = feedDetails[story.slug];
+    return details ? { ...story, ...details } : undefined;
+  })
+  .filter((story): story is FeedStory => Boolean(story))
+  .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
 
 export const byCategory = (category: Category) =>
   stories.filter((s) => s.category === category);
