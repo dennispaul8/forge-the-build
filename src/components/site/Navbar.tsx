@@ -1,19 +1,24 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, Search, X } from "lucide-react";
+import { ChevronDown, Menu, Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const links = [
-  { to: "/", label: "Home" },
+  { to: "/", label: "The Feed" },
+  { to: "/videos", label: "Videos" },
+  { to: "/about", label: "About" },
+] as const;
+
+const seriesLinks = [
   { to: "/people", label: "People" },
   { to: "/technology", label: "Technology" },
   { to: "/processes", label: "Processes" },
-  { to: "/videos", label: "Videos" },
-  { to: "/about", label: "About" },
 ] as const;
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [seriesOpen, setSeriesOpen] = useState(false);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
@@ -22,6 +27,7 @@ export function Navbar() {
       if (e.key === "Escape") {
         setSearchOpen(false);
         setMenuOpen(false);
+        setSeriesOpen(false);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -43,8 +49,42 @@ export function Navbar() {
           <span className="font-display text-2xl leading-none tracking-tight">FORGE</span>
         </Link>
 
-        <nav className="hidden justify-center gap-7 lg:flex">
-          {links.map((l) => (
+        <nav className="hidden items-center justify-center gap-7 lg:flex">
+          <Link
+            to="/"
+            activeOptions={{ exact: true }}
+            className="eyebrow text-muted-foreground transition-colors hover:text-foreground"
+            activeProps={{ className: "eyebrow border-b border-accent pb-1 text-foreground" }}
+          >
+            The Feed
+          </Link>
+          <div className="relative">
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              aria-expanded={seriesOpen}
+              onClick={() => setSeriesOpen((value) => !value)}
+              className="eyebrow h-auto rounded-none p-0 text-muted-foreground shadow-none hover:bg-transparent hover:text-foreground"
+            >
+              Series <ChevronDown className="h-3 w-3" />
+            </Button>
+            {seriesOpen && (
+              <div className="absolute left-1/2 top-7 w-48 -translate-x-1/2 border border-border bg-background p-2 shadow-lg">
+                {seriesLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setSeriesOpen(false)}
+                    className="eyebrow block px-3 py-2.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+          {links.slice(1).map((l) => (
             <Link
               key={l.to}
               to={l.to}
@@ -58,27 +98,34 @@ export function Navbar() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
-          <button
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
             aria-label="Search"
             onClick={() => setSearchOpen((v) => !v)}
-            className="grid h-9 w-9 place-items-center border border-border transition-colors hover:border-border-strong hover:bg-secondary"
+            className="rounded-none shadow-none"
           >
             <Search className="h-4 w-4" />
-          </button>
+          </Button>
+          <Button asChild className="eyebrow hidden rounded-none bg-accent px-4 text-accent-foreground shadow-none hover:bg-accent/90 sm:inline-flex">
           <Link
             to="/"
-            hash="newsletter"
-            className="eyebrow hidden bg-ink px-4 py-2.5 text-ink-foreground transition-colors hover:bg-accent sm:inline-block"
+            hash="today"
           >
-            Newsletter
+            Jump to Today
           </Link>
-          <button
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
             aria-label="Menu"
             onClick={() => setMenuOpen((v) => !v)}
-            className="grid h-9 w-9 place-items-center border border-border lg:hidden"
+            className="rounded-none shadow-none lg:hidden"
           >
             {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -96,9 +143,9 @@ export function Navbar() {
               placeholder="Search articles, people, technology, processes, videos"
               className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
             />
-            <button type="submit" className="eyebrow bg-ink px-4 py-2 text-ink-foreground">
+            <Button type="submit" className="eyebrow rounded-none bg-ink px-4 text-ink-foreground shadow-none">
               Search
-            </button>
+            </Button>
           </form>
         </div>
       )}
@@ -106,7 +153,7 @@ export function Navbar() {
       {menuOpen && (
         <nav className="border-t border-border bg-background lg:hidden">
           <ul className="mx-auto max-w-[1400px] px-5 py-2 md:px-8">
-            {links.map((l) => (
+            {[links[0], ...seriesLinks, ...links.slice(1)].map((l) => (
               <li key={l.to} className="border-b border-border last:border-0">
                 <Link
                   to={l.to}
@@ -121,11 +168,11 @@ export function Navbar() {
           <div className="px-5 pb-5 md:px-8">
             <Link
               to="/"
-              hash="newsletter"
+              hash="today"
               onClick={() => setMenuOpen(false)}
               className="eyebrow block bg-ink px-4 py-3 text-center text-ink-foreground"
             >
-              Subscribe to the newsletter
+              Jump to Today
             </Link>
           </div>
         </nav>
